@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday kona regalo ko?</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #f0f0f0;
+            overflow: hidden;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+        .give-gift-button {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .no-gift-button {
+            background-color: #f44336;
+            color: white;
+            position: absolute; /* Ensure it can move around */
+        }
+        .message {
+            display: none;
+            font-size: 24px;
+            margin-top: 20px;
+            color: #4CAF50;
+            z-index: 2;
+        }
+        .confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 3;
+            display: none; /* Hide by default */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Birthday kona regalo ko?</h1>
+        <button class="give-gift-button" onclick="handleYes()">Will give a gift</button>
+        <button class="no-gift-button" onclick="handleNo()">Will not give a gift</button>
+        <div class="message" id="thankYouMessage">
+            HURAYYYYYYY Thank You! <br>
+        </div>
+    </div>
+    <div class="confetti" id="confetti"></div>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+        let noButton = document.querySelector('.no-gift-button');
+        let clickCount = 0;
+
+        function handleYes() {
+            // Show confetti animation
+            let confettiCanvas = document.getElementById('confetti');
+            confettiCanvas.style.display = 'block';
+
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+
+            // Immediately show the thank you message
+            document.getElementById('thankYouMessage').style.display = 'block';
+            noButton.style.display = 'none'; // Hide the "Will not give a gift" button
+
+            // Hide confetti after animation completes
+            setTimeout(() => {
+                confettiCanvas.style.display = 'none';
+            }, 3000); // Confetti for 3 seconds
+        }
+
+        function handleNo() {
+            clickCount++;
+            if (clickCount === 5) {
+                noButton.textContent = 'Dikapa pagod';
+                noButton.style.backgroundColor = '#FFC107'; // Change background color to yellow
+                noButton.style.color = '#000'; // Change text color to black
+            } else if (clickCount === 7) {
+                noButton.textContent = 'Sige na';
+            } else if (clickCount === 8) {
+                noButton.textContent = 'Plss';
+            } else if (clickCount === 9) {
+                noButton.textContent = 'Bahala ka dyan mapagod ka';
+                // Optionally change button style or keep the same
+                noButton.style.backgroundColor = '#FF5722'; // Change background color to a different color
+            } else {
+                moveNoButton();
+            }
+        }
+
+        function moveNoButton() {
+            let container = document.querySelector('.container');
+            let containerRect = container.getBoundingClientRect();
+            let newTop = Math.random() * (containerRect.height - noButton.offsetHeight) + 'px';
+            let newLeft = Math.random() * (containerRect.width - noButton.offsetWidth) + 'px';
+
+            noButton.style.top = newTop;
+            noButton.style.left = newLeft;
+        }
+    </script>
+</body>
+</html>
